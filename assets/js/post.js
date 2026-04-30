@@ -1,13 +1,9 @@
 import { deletePost, getPostById, updatePost } from "./api.js";
 import { getProfile } from "./auth.js";
 
+import { createEditForm, createPostImage, getPostIdFromUrl } from "./postHelpers.js";
+
 const postContainer = document.querySelector("#post-container");
-
-function getPostIdFromUrl() {
-	const params = new URLSearchParams(window.location.search);
-
-	return params.get("id");
-}
 
 function isOwnPost(post) {
 	const profile = getProfile();
@@ -17,44 +13,6 @@ function isOwnPost(post) {
 	}
 
 	return profile.name === post.author.name;
-}
-
-function createPostImage(post) {
-	if (!post.media || !post.media.url) {
-		return null;
-	}
-
-	const imageWrapper = document.createElement("div");
-	imageWrapper.className = "flex justify-center w-full";
-
-	const image = document.createElement("img");
-	image.src = post.media.url;
-	image.alt = post.media.alt || post.title || "Post image";
-	image.className = "max-w-md w-full max-h-72 object-cover rounded-md";
-
-	imageWrapper.appendChild(image);
-
-	return imageWrapper;
-}
-
-function createEditForm(post) {
-	const form = document.createElement("form");
-	form.className = "flex flex-col gap-4";
-
-	form.innerHTML = `
-    <label for="edit-title">Title</label>
-    <input id="edit-title" name="title" required value="${post.title}" />
-
-    <label for="edit-body">Content</label>
-    <textarea id="edit-body" name="body" rows="4">${post.body || ""}</textarea>
-
-    <label for="edit-media">Image URL optional</label>
-    <input id="edit-media" name="media" type="url" value="${post.media?.url || ""}" />
-
-    <button type="submit">Save changes</button>
-  `;
-
-	return form;
 }
 
 async function loadSinglePost() {
