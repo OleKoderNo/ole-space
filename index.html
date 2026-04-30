@@ -49,6 +49,22 @@
 				<p id="create-post-message" aria-live="assertive"></p>
 			</section>
 
+			<section ow="bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full">
+				<h2 ow="text-large font-bold">Search posts</h2>
+
+				<form id="search-form" ow="flex flex-col gap-4">
+					<label for="search-input">Search by title or content</label>
+
+					<input id="search-input" name="search" type="search" placeholder="Search posts" />
+
+					<button type="submit">Search</button>
+				</form>
+
+				<button id="clear-search-btn" type="button" class="hidden">Clear search</button>
+
+				<p id="search-message" aria-live="polite"></p>
+			</section>
+
 			<section id="feed" aria-live="polite" ow="flex flex-col gap-4 max-w-hero w-full">
 				<!-- Public feed loads here -->
 			</section>
