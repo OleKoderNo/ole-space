@@ -4,7 +4,7 @@ export const API_BASE = "https://v2.api.noroff.dev";
 
 export const PUBLIC_API_KEY = "";
 
-export async function getPublicPosts() {
+function getHeaders() {
 	const headers = {};
 
 	const token = getToken();
@@ -18,8 +18,12 @@ export async function getPublicPosts() {
 		headers["X-Noroff-API-Key"] = apiKey;
 	}
 
+	return headers;
+}
+
+export async function getPublicPosts() {
 	const response = await fetch(`${API_BASE}/social/posts?_author=true`, {
-		headers: headers,
+		headers: getHeaders(),
 	});
 
 	const result = await response.json();
@@ -32,27 +36,28 @@ export async function getPublicPosts() {
 }
 
 export async function getPostById(id) {
-	const headers = {};
-
-	const token = getToken();
-	const apiKey = getApiKey();
-
-	if (token) {
-		headers.Authorization = `Bearer ${token}`;
-	}
-
-	if (apiKey) {
-		headers["X-Noroff-API-Key"] = apiKey;
-	}
-
 	const response = await fetch(`${API_BASE}/social/posts/${id}?_author=true`, {
-		headers: headers,
+		headers: getHeaders(),
 	});
 
 	const result = await response.json();
 
 	if (!response.ok) {
 		throw new Error(result.errors?.[0]?.message || "Could not fetch post");
+	}
+
+	return result.data;
+}
+
+export async function getProfileByName(name) {
+	const response = await fetch(`${API_BASE}/social/profiles/${name}?_posts=true`, {
+		headers: getHeaders(),
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		throw new Error(result.errors?.[0]?.message || "Could not fetch profile");
 	}
 
 	return result.data;
@@ -81,9 +86,8 @@ export async function createPost(title, body, media) {
 	const response = await fetch(`${API_BASE}/social/posts`, {
 		method: "POST",
 		headers: {
-			Authorization: `Bearer ${token}`,
+			...getHeaders(),
 			"Content-Type": "application/json",
-			"X-Noroff-API-Key": apiKey,
 		},
 		body: JSON.stringify(postData),
 	});
@@ -120,9 +124,8 @@ export async function updatePost(id, title, body, media) {
 	const response = await fetch(`${API_BASE}/social/posts/${id}`, {
 		method: "PUT",
 		headers: {
-			Authorization: `Bearer ${token}`,
+			...getHeaders(),
 			"Content-Type": "application/json",
-			"X-Noroff-API-Key": apiKey,
 		},
 		body: JSON.stringify(postData),
 	});
@@ -146,10 +149,7 @@ export async function deletePost(id) {
 
 	const response = await fetch(`${API_BASE}/social/posts/${id}`, {
 		method: "DELETE",
-		headers: {
-			Authorization: `Bearer ${token}`,
-			"X-Noroff-API-Key": apiKey,
-		},
+		headers: getHeaders(),
 	});
 
 	if (!response.ok) {
