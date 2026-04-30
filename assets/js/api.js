@@ -50,14 +50,47 @@ export async function getPostById(id) {
 }
 
 export async function getProfileByName(name) {
-	const response = await fetch(`${API_BASE}/social/profiles/${name}?_posts=true`, {
+	const response = await fetch(
+		`${API_BASE}/social/profiles/${name}?_posts=true&_followers=true&_following=true`,
+		{
+			headers: getHeaders(),
+		},
+	);
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		throw new Error(result.errors?.[0]?.message || "Could not fetch profile");
+	}
+
+	return result.data;
+}
+
+export async function followProfile(name) {
+	const response = await fetch(`${API_BASE}/social/profiles/${name}/follow`, {
+		method: "PUT",
 		headers: getHeaders(),
 	});
 
 	const result = await response.json();
 
 	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not fetch profile");
+		throw new Error(result.errors?.[0]?.message || "Could not follow profile");
+	}
+
+	return result.data;
+}
+
+export async function unfollowProfile(name) {
+	const response = await fetch(`${API_BASE}/social/profiles/${name}/unfollow`, {
+		method: "PUT",
+		headers: getHeaders(),
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		throw new Error(result.errors?.[0]?.message || "Could not unfollow profile");
 	}
 
 	return result.data;

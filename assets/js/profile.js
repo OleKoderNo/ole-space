@@ -1,5 +1,5 @@
-import { getProfileByName } from "./api.js";
-import { getProfile } from "./auth.js";
+import { followProfile, getProfileByName, unfollowProfile } from "./api.js";
+import { getProfile, isLoggedIn } from "./auth.js";
 
 const profileContainer = document.querySelector("#profile-container");
 
@@ -18,6 +18,28 @@ function getProfileNameFromUrl() {
 	}
 
 	return loggedInProfile.name;
+}
+
+function isOwnProfile(profile) {
+	const loggedInProfile = getProfile();
+
+	if (!loggedInProfile) {
+		return false;
+	}
+
+	return loggedInProfile.name === profile.name;
+}
+
+function isFollowingProfile(profile) {
+	const loggedInProfile = getProfile();
+
+	if (!loggedInProfile || !profile.followers) {
+		return false;
+	}
+
+	return profile.followers.some((follower) => {
+		return follower.name === loggedInProfile.name;
+	});
 }
 
 function createProfileImage(profile) {
@@ -123,9 +145,38 @@ async function loadProfilePage() {
 
 		const stats = document.createElement("p");
 		stats.className = "text-small";
-		stats.textContent = `${profile.posts.length} posts`;
+		stats.textContent = `${profile.posts.length} posts · ${profile._count.followers} followers · ${profile._count.following} following`;
 
 		header.appendChild(stats);
+
+		if (isLoggedIn() && !isOwnProfile(profile)) {
+			const followButton = document.createElement("button");
+			followButton.type = "button";
+
+			const following = isFollowingProfile(profile);
+
+			if (following) {
+				followButton.textContent = "Unfollow";
+			} else {
+				followButton.textContent = "Follow";
+			}
+
+			followButton.addEventListener("click", async () => {
+				try {
+					if (isFollowingProfile(profile)) {
+						await unfollowProfile(profile.name);
+					} else {
+						await followProfile(profile.name);
+					}
+
+					await loadProfilePage();
+				} catch (error) {
+					profileContainer.textContent = error.message;
+				}
+			});
+
+			header.appendChild(followButton);
+		}
 
 		const postsTitle = document.createElement("h2");
 		postsTitle.className = "text-large font-bold";
