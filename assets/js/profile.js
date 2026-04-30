@@ -1,61 +1,16 @@
 import { followProfile, getProfileByName, unfollowProfile } from "./api.js";
-import { getProfile, isLoggedIn } from "./auth.js";
+import { isLoggedIn } from "./auth.js";
+
+import {
+	createProfileImage,
+	getProfileNameFromUrl,
+	isFollowingProfile,
+	isOwnProfile,
+} from "./profileHelpers.js";
+
 import { createPostCard } from "./postCard.js";
 
 const profileContainer = document.querySelector("#profile-container");
-
-function getProfileNameFromUrl() {
-	const params = new URLSearchParams(window.location.search);
-	const name = params.get("name");
-
-	if (name) {
-		return name;
-	}
-
-	const loggedInProfile = getProfile();
-
-	if (!loggedInProfile) {
-		return null;
-	}
-
-	return loggedInProfile.name;
-}
-
-function isOwnProfile(profile) {
-	const loggedInProfile = getProfile();
-
-	if (!loggedInProfile) {
-		return false;
-	}
-
-	return loggedInProfile.name === profile.name;
-}
-
-function isFollowingProfile(profile) {
-	const loggedInProfile = getProfile();
-
-	if (!loggedInProfile || !profile.followers) {
-		return false;
-	}
-
-	return profile.followers.some((follower) => {
-		return follower.name === loggedInProfile.name;
-	});
-}
-
-function createProfileImage(profile) {
-	if (!profile.avatar || !profile.avatar.url) {
-		return null;
-	}
-
-	const image = document.createElement("img");
-
-	image.src = profile.avatar.url;
-	image.alt = profile.avatar.alt || `${profile.name} avatar`;
-	image.className = "w-10 h-10 rounded-full object-cover";
-
-	return image;
-}
 
 async function loadProfilePage() {
 	const name = getProfileNameFromUrl();
@@ -114,7 +69,6 @@ async function loadProfilePage() {
 
 		if (isLoggedIn() && !isOwnProfile(profile)) {
 			const followButton = document.createElement("button");
-			followButton.type = "button";
 
 			if (isFollowingProfile(profile)) {
 				followButton.textContent = "Unfollow";
