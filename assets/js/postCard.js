@@ -6,6 +6,8 @@ export function createPostCard(post, showAuthor) {
 	article.className =
 		"bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full mx-auto cursor-pointer";
 
+	article.style.boxSizing = "border-box";
+
 	article.addEventListener("click", () => {
 		window.location.href = `post.html?id=${post.id}`;
 	});
