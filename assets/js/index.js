@@ -1,40 +1,14 @@
 import { createPost } from "./api.js";
-import { isLoggedIn, logout } from "./auth.js";
-import { loadPublicFeed } from "./posts.js";
+import { updateAuthUI } from "./authUI.js";
+import { loadPublicFeed } from "./feed.js";
 
-const loginLink = document.querySelector("#login-link");
-const registerLink = document.querySelector("#register-link");
-const profileLink = document.querySelector("#profile-link");
-const logoutButton = document.querySelector("#logout-btn");
-const createPostSection = document.querySelector("#create-post-section");
+const feedContainer = document.querySelector("#feed");
 const createPostForm = document.querySelector("#create-post-form");
 const createPostMessage = document.querySelector("#create-post-message");
-const feedContainer = document.querySelector("#feed");
 
-function updateNavigation() {
-	if (isLoggedIn()) {
-		loginLink.classList.add("hidden");
-		registerLink.classList.add("hidden");
+updateAuthUI();
 
-		profileLink.classList.remove("hidden");
-		logoutButton.classList.remove("hidden");
-		createPostSection.classList.remove("hidden");
-
-		return;
-	}
-
-	loginLink.classList.remove("hidden");
-	registerLink.classList.remove("hidden");
-
-	profileLink.classList.add("hidden");
-	logoutButton.classList.add("hidden");
-	createPostSection.classList.add("hidden");
-}
-
-logoutButton.addEventListener("click", () => {
-	logout();
-	window.location.href = "index.html";
-});
+loadPublicFeed(feedContainer);
 
 createPostForm.addEventListener("submit", async (event) => {
 	event.preventDefault();
@@ -58,6 +32,3 @@ createPostForm.addEventListener("submit", async (event) => {
 		createPostMessage.textContent = error.message;
 	}
 });
-
-updateNavigation();
-loadPublicFeed(feedContainer);
