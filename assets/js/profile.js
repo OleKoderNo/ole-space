@@ -1,13 +1,6 @@
-import { followProfile, getProfileByName, unfollowProfile } from "./api.js";
-import { isLoggedIn } from "./auth.js";
-
-import {
-	createProfileImage,
-	getProfileNameFromUrl,
-	isFollowingProfile,
-	isOwnProfile,
-} from "./profileHelpers.js";
-
+import { getProfileByName } from "./api.js";
+import { createFollowButton } from "./followButton.js";
+import { createProfileImage, getProfileNameFromUrl } from "./profileHelpers.js";
 import { createPostCard } from "./postCard.js";
 
 const profileContainer = document.querySelector("#profile-container");
@@ -67,29 +60,9 @@ async function loadProfilePage() {
 
 		header.appendChild(stats);
 
-		if (isLoggedIn() && !isOwnProfile(profile)) {
-			const followButton = document.createElement("button");
+		const followButton = createFollowButton(profile, loadProfilePage);
 
-			if (isFollowingProfile(profile)) {
-				followButton.textContent = "Unfollow";
-			} else {
-				followButton.textContent = "Follow";
-			}
-
-			followButton.addEventListener("click", async () => {
-				try {
-					if (isFollowingProfile(profile)) {
-						await unfollowProfile(profile.name);
-					} else {
-						await followProfile(profile.name);
-					}
-
-					await loadProfilePage();
-				} catch (error) {
-					profileContainer.textContent = error.message;
-				}
-			});
-
+		if (followButton) {
 			header.appendChild(followButton);
 		}
 
