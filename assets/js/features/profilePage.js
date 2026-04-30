@@ -1,7 +1,7 @@
-import { getProfileByName } from "./api.js";
+import { getProfileByName } from "../api/api.js";
 import { createFollowButton } from "./followButton.js";
 import { createProfileImage, getProfileNameFromUrl } from "./profileHelpers.js";
-import { createPostCard } from "./postCard.js";
+import { createPostCard } from "../components/postCard.js";
 
 export async function loadProfilePage(profileContainer) {
 	const name = getProfileNameFromUrl();

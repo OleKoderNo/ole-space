@@ -1,6 +1,6 @@
-import { getPostById } from "./api.js";
+import { getPostById } from "../api/api.js";
 import { createOwnerActions } from "./postOwnership.js";
-import { createProfileLink } from "./profileLink.js";
+import { createProfileLink } from "../components/profileLink.js";
 import { createPostImage, getPostIdFromUrl } from "./postHelpers.js";
 
 export async function loadPostPage(postContainer) {

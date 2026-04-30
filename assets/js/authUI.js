@@ -1,4 +1,4 @@
-import { isLoggedIn, logout } from "./auth.js";
+import { isLoggedIn, logout } from "./auth/auth.js";
 
 export function updateAuthUI() {
 	const loginLink = document.querySelector("#login-link");

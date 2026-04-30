@@ -1,4 +1,4 @@
-import { isLoggedIn, logout } from "./auth.js";
+import { isLoggedIn, logout } from "../auth/auth.js";
 
 function createNavLink(href, text, colorClass) {
 	const link = document.createElement("a");

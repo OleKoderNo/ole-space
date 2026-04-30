@@ -1,4 +1,4 @@
-import { getUrlParam } from "./urlParams.js";
+import { getUrlParam } from "../utils/urlParams.js";
 
 export function getPostIdFromUrl() {
 	return getUrlParam("id");

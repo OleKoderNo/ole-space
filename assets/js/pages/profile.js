@@ -1,5 +1,5 @@
-import { renderNavbar } from "./navbar.js";
-import { loadProfilePage } from "./profilePage.js";
+import { renderNavbar } from "../components/navbar.js";
+import { loadProfilePage } from "../features/profilePage.js";
 
 const profileContainer = document.querySelector("#profile-container");
 

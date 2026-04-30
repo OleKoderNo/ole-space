@@ -1,5 +1,5 @@
-import { createPost } from "./api.js";
-import { isLoggedIn } from "./auth.js";
+import { createPost } from "../api/api.js";
+import { isLoggedIn } from "../auth/auth.js";
 
 export function setupCreatePostForm() {
 	if (!isLoggedIn()) {

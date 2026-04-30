@@ -1,5 +1,5 @@
-import { deletePost, updatePost } from "./api.js";
-import { getProfile } from "./auth.js";
+import { deletePost, updatePost } from "../api/api.js";
+import { getProfile } from "../auth/auth.js";
 import { createEditForm } from "./postHelpers.js";
 
 export function isOwnPost(post) {

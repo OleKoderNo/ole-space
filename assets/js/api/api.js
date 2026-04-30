@@ -1,4 +1,4 @@
-import { getApiKey, getToken } from "./auth.js";
+import { getApiKey, getToken } from "../auth/auth.js";
 
 export const API_BASE = "https://v2.api.noroff.dev";
 

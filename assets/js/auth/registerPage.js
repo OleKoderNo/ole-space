@@ -1,4 +1,4 @@
-import { registerUser } from "./api.js";
+import { registerUser } from "../api/api.js";
 import { isLoggedIn } from "./auth.js";
 
 export function setupRegisterPage() {

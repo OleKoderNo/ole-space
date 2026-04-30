@@ -1,5 +1,5 @@
-import { getPublicPosts } from "./api.js";
-import { createPostCard } from "./postCard.js";
+import { getPublicPosts } from "../api/api.js";
+import { createPostCard } from "../components/postCard.js";
 
 export async function loadPublicFeed(container) {
 	container.innerHTML = "Loading posts...";

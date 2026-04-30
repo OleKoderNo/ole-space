@@ -1,1 +1,1 @@
-export { loadPublicFeed } from "./feed.js";
+export { loadPublicFeed } from "./features/feed.js";

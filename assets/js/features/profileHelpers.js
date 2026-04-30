@@ -1,5 +1,5 @@
-import { getProfile } from "./auth.js";
-import { getUrlParam } from "./urlParams.js";
+import { getProfile } from "../auth/auth.js";
+import { getUrlParam } from "../utils/urlParams.js";
 
 export function getProfileNameFromUrl() {
 	const name = getUrlParam("name");

@@ -1,4 +1,4 @@
-import { createApiKey, loginUser } from "./api.js";
+import { createApiKey, loginUser } from "../api/api.js";
 import { isLoggedIn, setApiKey, setProfile, setToken } from "./auth.js";
 
 export function setupLoginPage() {
