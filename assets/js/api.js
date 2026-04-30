@@ -8,16 +8,14 @@ export async function getPublicPosts() {
 	const headers = {};
 
 	const token = getToken();
-	const storedApiKey = getApiKey();
+	const apiKey = getApiKey();
 
 	if (token) {
 		headers.Authorization = `Bearer ${token}`;
 	}
 
-	if (storedApiKey) {
-		headers["X-Noroff-API-Key"] = storedApiKey;
-	} else if (PUBLIC_API_KEY) {
-		headers["X-Noroff-API-Key"] = PUBLIC_API_KEY;
+	if (apiKey) {
+		headers["X-Noroff-API-Key"] = apiKey;
 	}
 
 	const response = await fetch(`${API_BASE}/social/posts`, {
@@ -28,6 +26,45 @@ export async function getPublicPosts() {
 
 	if (!response.ok) {
 		throw new Error(result.errors?.[0]?.message || "Could not fetch posts");
+	}
+
+	return result.data;
+}
+
+export async function createPost(title, body, media) {
+	const token = getToken();
+	const apiKey = getApiKey();
+
+	if (!token || !apiKey) {
+		throw new Error("You must be logged in to create a post.");
+	}
+
+	const postData = {
+		title: title,
+		body: body || "",
+	};
+
+	if (media) {
+		postData.media = {
+			url: media,
+			alt: title,
+		};
+	}
+
+	const response = await fetch(`${API_BASE}/social/posts`, {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${token}`,
+			"Content-Type": "application/json",
+			"X-Noroff-API-Key": apiKey,
+		},
+		body: JSON.stringify(postData),
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		throw new Error(result.errors?.[0]?.message || "Could not create post");
 	}
 
 	return result.data;

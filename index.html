@@ -17,7 +17,6 @@
 
 			<nav ow="flex gap-4">
 				<a href="login.html" id="login-link">Login</a>
-
 				<a href="register.html" id="register-link">Register</a>
 
 				<a href="profile.html" id="profile-link" class="hidden"> Profile </a>
@@ -27,12 +26,31 @@
 		</header>
 
 		<main ow="flex flex-col items-center p-6 gap-6">
-			<section id="create-post-section" class="hidden">
-				<!-- Create post form appears here later -->
+			<section
+				id="create-post-section"
+				class="hidden"
+				ow="bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full"
+			>
+				<h2 ow="text-large font-bold">Create post</h2>
+
+				<form id="create-post-form" ow="flex flex-col gap-4">
+					<label for="post-title">Title</label>
+					<input id="post-title" name="title" required />
+
+					<label for="post-body">Content</label>
+					<textarea id="post-body" name="body" rows="4"></textarea>
+
+					<label for="post-media">Image URL optional</label>
+					<input id="post-media" name="media" type="url" />
+
+					<button type="submit">Create post</button>
+				</form>
+
+				<p id="create-post-message" aria-live="assertive"></p>
 			</section>
 
 			<section id="feed" aria-live="polite" ow="flex flex-col gap-4 max-w-hero w-full">
-				<!-- Public feed loads here later -->
+				<!-- Public feed loads here -->
 			</section>
 		</main>
 	</body>
