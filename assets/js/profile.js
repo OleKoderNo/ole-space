@@ -1,5 +1,6 @@
 import { followProfile, getProfileByName, unfollowProfile } from "./api.js";
 import { getProfile, isLoggedIn } from "./auth.js";
+import { createPostCard } from "./postCard.js";
 
 const profileContainer = document.querySelector("#profile-container");
 
@@ -54,44 +55,6 @@ function createProfileImage(profile) {
 	image.className = "w-10 h-10 rounded-full object-cover";
 
 	return image;
-}
-
-function createPostCard(post) {
-	const article = document.createElement("article");
-
-	article.className = "bg-white border rounded-md p-4 flex flex-col gap-4 cursor-pointer";
-
-	article.addEventListener("click", () => {
-		window.location.href = `post.html?id=${post.id}`;
-	});
-
-	const title = document.createElement("h2");
-	title.className = "text-large font-bold";
-	title.textContent = post.title;
-
-	article.appendChild(title);
-
-	if (post.media && post.media.url) {
-		const imageWrapper = document.createElement("div");
-		imageWrapper.className = "flex justify-center w-full";
-
-		const image = document.createElement("img");
-		image.src = post.media.url;
-		image.alt = post.media.alt || post.title || "Post image";
-		image.className = "max-w-md w-full max-h-72 object-cover rounded-md";
-
-		imageWrapper.appendChild(image);
-		article.appendChild(imageWrapper);
-	}
-
-	if (post.body) {
-		const body = document.createElement("p");
-		body.textContent = post.body;
-
-		article.appendChild(body);
-	}
-
-	return article;
 }
 
 async function loadProfilePage() {
@@ -153,9 +116,7 @@ async function loadProfilePage() {
 			const followButton = document.createElement("button");
 			followButton.type = "button";
 
-			const following = isFollowingProfile(profile);
-
-			if (following) {
+			if (isFollowingProfile(profile)) {
 				followButton.textContent = "Unfollow";
 			} else {
 				followButton.textContent = "Follow";
@@ -190,7 +151,8 @@ async function loadProfilePage() {
 		}
 
 		profile.posts.forEach((post) => {
-			const postCard = createPostCard(post);
+			const postCard = createPostCard(post, false);
+
 			postsList.appendChild(postCard);
 		});
 
