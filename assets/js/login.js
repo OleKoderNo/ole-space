@@ -1,1 +1,5 @@
-// Login logic goes here later
+import { isLoggedIn } from "./auth.js";
+
+if (isLoggedIn()) {
+	window.location.href = "index.html";
+}
