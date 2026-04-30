@@ -13,7 +13,8 @@ export function updateAuthUI() {
 
 		profileLink.classList.remove("hidden");
 		logoutButton.classList.remove("hidden");
-		createPostSection.classList.remove("hidden");
+
+		createPostSection.style.display = "flex";
 
 		logoutButton.addEventListener("click", () => {
 			logout();
@@ -28,5 +29,6 @@ export function updateAuthUI() {
 
 	profileLink.classList.add("hidden");
 	logoutButton.classList.add("hidden");
-	createPostSection.classList.add("hidden");
+
+	createPostSection.style.display = "none";
 }
