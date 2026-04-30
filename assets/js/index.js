@@ -1,10 +1,12 @@
 import { isLoggedIn, logout } from "./auth.js";
+import { loadPublicFeed } from "./posts.js";
 
 const loginLink = document.querySelector("#login-link");
 const registerLink = document.querySelector("#register-link");
 const profileLink = document.querySelector("#profile-link");
 const logoutButton = document.querySelector("#logout-btn");
 const createPostSection = document.querySelector("#create-post-section");
+const feedContainer = document.querySelector("#feed");
 
 function updateNavigation() {
 	if (isLoggedIn()) {
@@ -32,3 +34,5 @@ logoutButton.addEventListener("click", () => {
 });
 
 updateNavigation();
+
+loadPublicFeed(feedContainer);

@@ -1,6 +1,37 @@
+import { getApiKey, getToken } from "./auth.js";
+
 export const API_BASE = "https://v2.api.noroff.dev";
 
 export const PUBLIC_API_KEY = "";
+
+export async function getPublicPosts() {
+	const headers = {};
+
+	const token = getToken();
+	const storedApiKey = getApiKey();
+
+	if (token) {
+		headers.Authorization = `Bearer ${token}`;
+	}
+
+	if (storedApiKey) {
+		headers["X-Noroff-API-Key"] = storedApiKey;
+	} else if (PUBLIC_API_KEY) {
+		headers["X-Noroff-API-Key"] = PUBLIC_API_KEY;
+	}
+
+	const response = await fetch(`${API_BASE}/social/posts`, {
+		headers: headers,
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		throw new Error(result.errors?.[0]?.message || "Could not fetch posts");
+	}
+
+	return result.data;
+}
 
 export async function registerUser(name, email, password) {
 	const response = await fetch(`${API_BASE}/auth/register`, {
