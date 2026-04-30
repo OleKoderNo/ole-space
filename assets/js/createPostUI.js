@@ -1,9 +1,9 @@
 import { createPost } from "./api.js";
 import { isLoggedIn } from "./auth.js";
-import { loadPublicFeed } from "./feed.js";
 
-export function setupCreatePostForm(feedContainer) {
+export function setupCreatePostForm() {
 	if (!isLoggedIn()) {
+		window.location.href = "login.html";
 		return;
 	}
 
@@ -25,9 +25,7 @@ export function setupCreatePostForm(feedContainer) {
 			await createPost(title, body, media);
 
 			createPostForm.reset();
-			createPostMessage.textContent = "Post created.";
-
-			await loadPublicFeed(feedContainer);
+			window.location.href = "index.html";
 		} catch (error) {
 			createPostMessage.textContent = error.message;
 		}

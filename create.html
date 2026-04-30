@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>Create post | OleSpace</title>
+
+		<link rel="stylesheet" href="assets/css/olewind.css" />
+		<script type="module" src="assets/js/olewind.js"></script>
+		<script type="module" src="assets/js/create.js"></script>
+	</head>
+
+	<body ow="bg-off-white min-h-screen flex flex-col">
+		<header ow="bg-white border-b p-4 flex justify-between items-center">
+			<h1 ow="text-2xl font-bold">OleSpace</h1>
+
+			<nav ow="flex gap-4">
+				<a href="index.html">Feed</a>
+
+				<a href="profile.html" id="profile-link" class="hidden">
+					<button type="button">Profile</button>
+				</a>
+
+				<button id="logout-btn" class="hidden">Logout</button>
+			</nav>
+		</header>
+
+		<main ow="flex flex-col items-center p-6 gap-6">
+			<section
+				id="create-post-section"
+				ow="bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full"
+			>
+				<h2 ow="text-large font-bold">Create post</h2>
+
+				<form id="create-post-form" ow="flex flex-col gap-4">
+					<label for="post-title">Title</label>
+					<input id="post-title" name="title" required />
+
+					<label for="post-body">Content</label>
+					<textarea id="post-body" name="body" rows="4"></textarea>
+
+					<label for="post-media">Image URL optional</label>
+					<input id="post-media" name="media" type="url" />
+
+					<button type="submit">Create post</button>
+				</form>
+
+				<p id="create-post-message" aria-live="assertive"></p>
+			</section>
+		</main>
+	</body>
+</html>
