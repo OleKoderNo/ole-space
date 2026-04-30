@@ -2,6 +2,28 @@ export const API_BASE = "https://v2.api.noroff.dev";
 
 export const PUBLIC_API_KEY = "";
 
+export async function registerUser(name, email, password) {
+	const response = await fetch(`${API_BASE}/auth/register`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			name: name,
+			email: email,
+			password: password,
+		}),
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		throw new Error(result.errors?.[0]?.message || "Register failed");
+	}
+
+	return result.data;
+}
+
 export async function loginUser(email, password) {
 	const response = await fetch(`${API_BASE}/auth/login`, {
 		method: "POST",
