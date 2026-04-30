@@ -18,8 +18,8 @@ export async function getPublicPosts() {
 		headers["X-Noroff-API-Key"] = apiKey;
 	}
 
-	const response = await fetch(`${API_BASE}/social/posts`, {
-		headers: headers,
+	const response = await fetch(`${API_BASE}/social/posts?_author=true`, {
+		headers,
 	});
 
 	const result = await response.json();

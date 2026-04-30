@@ -19,10 +19,15 @@ export async function loadPublicFeed(container) {
 			article.className =
 				"bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full mx-auto";
 
+			const author = document.createElement("p");
+			author.className = "text-small";
+			author.textContent = `@${post.author.name}`;
+
 			const title = document.createElement("h2");
 			title.className = "text-large font-bold";
 			title.textContent = post.title;
 
+			article.appendChild(author);
 			article.appendChild(title);
 
 			if (post.media && post.media.url) {
