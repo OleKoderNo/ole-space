@@ -1,9 +1,8 @@
 import { getProfile } from "./auth.js";
+import { getUrlParam } from "./urlParams.js";
 
 export function getProfileNameFromUrl() {
-	const params = new URLSearchParams(window.location.search);
-
-	const name = params.get("name");
+	const name = getUrlParam("name");
 
 	if (name) {
 		return name;

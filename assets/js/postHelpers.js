@@ -1,7 +1,7 @@
-export function getPostIdFromUrl() {
-	const params = new URLSearchParams(window.location.search);
+import { getUrlParam } from "./urlParams.js";
 
-	return params.get("id");
+export function getPostIdFromUrl() {
+	return getUrlParam("id");
 }
 
 export function createPostImage(post) {
