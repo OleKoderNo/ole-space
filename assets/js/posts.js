@@ -14,10 +14,14 @@ export async function loadPublicFeed(container) {
 		container.innerHTML = "";
 
 		posts.forEach((post) => {
+			const link = document.createElement("a");
+
+			link.href = `post.html?id=${post.id}`;
+			link.className = "no-underline text-charcoal block max-w-hero w-full mx-auto";
+
 			const article = document.createElement("article");
 
-			article.className =
-				"bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full mx-auto";
+			article.className = "bg-white border rounded-md p-4 flex flex-col gap-4";
 
 			const author = document.createElement("p");
 			author.className = "text-small";
@@ -52,7 +56,8 @@ export async function loadPublicFeed(container) {
 				article.appendChild(body);
 			}
 
-			container.appendChild(article);
+			link.appendChild(article);
+			container.appendChild(link);
 		});
 	} catch (error) {
 		container.innerHTML = error.message;
