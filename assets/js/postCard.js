@@ -1,3 +1,5 @@
+import { createProfileLink } from "./profileLink.js";
+
 export function createPostCard(post, showAuthor) {
 	const article = document.createElement("article");
 
@@ -9,11 +11,7 @@ export function createPostCard(post, showAuthor) {
 	});
 
 	if (showAuthor && post.author) {
-		const authorLink = document.createElement("a");
-
-		authorLink.href = `profile.html?name=${post.author.name}`;
-		authorLink.className = "text-small text-dusty-blue";
-		authorLink.textContent = `@${post.author.name}`;
+		const authorLink = createProfileLink(post.author.name);
 
 		authorLink.addEventListener("click", (event) => {
 			event.preventDefault();

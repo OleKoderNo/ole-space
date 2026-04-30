@@ -1,5 +1,6 @@
 import { getPostById } from "./api.js";
 import { createOwnerActions } from "./postOwnership.js";
+import { createProfileLink } from "./profileLink.js";
 
 import { createPostImage, getPostIdFromUrl } from "./postHelpers.js";
 
@@ -32,10 +33,7 @@ async function loadSinglePost() {
 		backLink.textContent = "Back to feed";
 		backLink.className = "text-dusty-blue";
 
-		const authorLink = document.createElement("a");
-		authorLink.href = `profile.html?name=${post.author.name}`;
-		authorLink.textContent = `@${post.author.name}`;
-		authorLink.className = "text-small text-dusty-blue";
+		const authorLink = createProfileLink(post.author.name);
 
 		const title = document.createElement("h1");
 		title.className = "text-2xl font-bold";
