@@ -97,6 +97,67 @@ export async function createPost(title, body, media) {
 	return result.data;
 }
 
+export async function updatePost(id, title, body, media) {
+	const token = getToken();
+	const apiKey = getApiKey();
+
+	if (!token || !apiKey) {
+		throw new Error("You must be logged in to edit a post.");
+	}
+
+	const postData = {
+		title: title,
+		body: body || "",
+	};
+
+	if (media) {
+		postData.media = {
+			url: media,
+			alt: title,
+		};
+	}
+
+	const response = await fetch(`${API_BASE}/social/posts/${id}`, {
+		method: "PUT",
+		headers: {
+			Authorization: `Bearer ${token}`,
+			"Content-Type": "application/json",
+			"X-Noroff-API-Key": apiKey,
+		},
+		body: JSON.stringify(postData),
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		throw new Error(result.errors?.[0]?.message || "Could not update post");
+	}
+
+	return result.data;
+}
+
+export async function deletePost(id) {
+	const token = getToken();
+	const apiKey = getApiKey();
+
+	if (!token || !apiKey) {
+		throw new Error("You must be logged in to delete a post.");
+	}
+
+	const response = await fetch(`${API_BASE}/social/posts/${id}`, {
+		method: "DELETE",
+		headers: {
+			Authorization: `Bearer ${token}`,
+			"X-Noroff-API-Key": apiKey,
+		},
+	});
+
+	if (!response.ok) {
+		const result = await response.json();
+		throw new Error(result.errors?.[0]?.message || "Could not delete post");
+	}
+}
+
 export async function registerUser(name, email, password) {
 	const response = await fetch(`${API_BASE}/auth/register`, {
 		method: "POST",
