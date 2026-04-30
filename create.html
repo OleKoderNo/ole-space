@@ -7,31 +7,20 @@
 		<title>Create post | OleSpace</title>
 
 		<link rel="stylesheet" href="assets/css/olewind.css" />
+
 		<script type="module" src="assets/js/olewind.js"></script>
 		<script type="module" src="assets/js/create.js"></script>
 	</head>
 
 	<body ow="bg-off-white min-h-screen flex flex-col">
-		<header ow="bg-white border-b p-4 flex justify-between items-center">
-			<h1 ow="text-2xl font-bold">OleSpace</h1>
-
-			<nav ow="flex gap-4">
-				<a href="index.html">Feed</a>
-
-				<a href="profile.html" id="profile-link" class="hidden">
-					<button type="button">Profile</button>
-				</a>
-
-				<button id="logout-btn" class="hidden">Logout</button>
-			</nav>
-		</header>
+		<div id="navbar"></div>
 
 		<main ow="flex flex-col items-center p-6 gap-6">
 			<section
 				id="create-post-section"
 				ow="bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full"
 			>
-				<h2 ow="text-large font-bold">Create post</h2>
+				<h1 ow="text-2xl font-bold">Create post</h1>
 
 				<form id="create-post-form" ow="flex flex-col gap-4">
 					<label for="post-title">Title</label>

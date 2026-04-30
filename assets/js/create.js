@@ -1,5 +1,5 @@
-import { updateAuthUI } from "./authUI.js";
 import { setupCreatePostForm } from "./createPostUI.js";
+import { renderNavbar } from "./navbar.js";
 
-updateAuthUI();
+renderNavbar();
 setupCreatePostForm();
