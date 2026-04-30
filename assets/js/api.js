@@ -19,13 +19,40 @@ export async function getPublicPosts() {
 	}
 
 	const response = await fetch(`${API_BASE}/social/posts?_author=true`, {
-		headers,
+		headers: headers,
 	});
 
 	const result = await response.json();
 
 	if (!response.ok) {
 		throw new Error(result.errors?.[0]?.message || "Could not fetch posts");
+	}
+
+	return result.data;
+}
+
+export async function getPostById(id) {
+	const headers = {};
+
+	const token = getToken();
+	const apiKey = getApiKey();
+
+	if (token) {
+		headers.Authorization = `Bearer ${token}`;
+	}
+
+	if (apiKey) {
+		headers["X-Noroff-API-Key"] = apiKey;
+	}
+
+	const response = await fetch(`${API_BASE}/social/posts/${id}?_author=true`, {
+		headers: headers,
+	});
+
+	const result = await response.json();
+
+	if (!response.ok) {
+		throw new Error(result.errors?.[0]?.message || "Could not fetch post");
 	}
 
 	return result.data;
