@@ -4,7 +4,7 @@ export const API_BASE = "https://v2.api.noroff.dev";
 
 export const PUBLIC_API_KEY = "";
 
-function getHeaders() {
+function getAuthHeaders() {
 	const headers = {};
 
 	const token = getToken();
@@ -21,79 +21,67 @@ function getHeaders() {
 	return headers;
 }
 
-export async function getPublicPosts() {
-	const response = await fetch(`${API_BASE}/social/posts?_author=true`, {
-		headers: getHeaders(),
-	});
+function getJsonAuthHeaders() {
+	const headers = getAuthHeaders();
 
+	headers["Content-Type"] = "application/json";
+
+	return headers;
+}
+
+async function getJson(response, fallbackMessage) {
 	const result = await response.json();
 
 	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not fetch posts");
+		throw new Error(result.errors?.[0]?.message || fallbackMessage);
 	}
 
 	return result.data;
 }
 
-export async function getPostById(id) {
-	const response = await fetch(`${API_BASE}/social/posts/${id}?_author=true`, {
-		headers: getHeaders(),
+export async function getPublicPosts() {
+	const response = await fetch(`${API_BASE}/social/posts?_author=true`, {
+		headers: getAuthHeaders(),
 	});
 
-	const result = await response.json();
+	return getJson(response, "Could not fetch posts");
+}
 
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not fetch post");
-	}
+export async function getPostById(id) {
+	const response = await fetch(`${API_BASE}/social/posts/${id}?_author=true`, {
+		headers: getAuthHeaders(),
+	});
 
-	return result.data;
+	return getJson(response, "Could not fetch post");
 }
 
 export async function getProfileByName(name) {
 	const response = await fetch(
 		`${API_BASE}/social/profiles/${name}?_posts=true&_followers=true&_following=true`,
 		{
-			headers: getHeaders(),
+			headers: getAuthHeaders(),
 		},
 	);
 
-	const result = await response.json();
-
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not fetch profile");
-	}
-
-	return result.data;
+	return getJson(response, "Could not fetch profile");
 }
 
 export async function followProfile(name) {
 	const response = await fetch(`${API_BASE}/social/profiles/${name}/follow`, {
 		method: "PUT",
-		headers: getHeaders(),
+		headers: getAuthHeaders(),
 	});
 
-	const result = await response.json();
-
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not follow profile");
-	}
-
-	return result.data;
+	return getJson(response, "Could not follow profile");
 }
 
 export async function unfollowProfile(name) {
 	const response = await fetch(`${API_BASE}/social/profiles/${name}/unfollow`, {
 		method: "PUT",
-		headers: getHeaders(),
+		headers: getAuthHeaders(),
 	});
 
-	const result = await response.json();
-
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not unfollow profile");
-	}
-
-	return result.data;
+	return getJson(response, "Could not unfollow profile");
 }
 
 export async function createPost(title, body, media) {
@@ -118,20 +106,11 @@ export async function createPost(title, body, media) {
 
 	const response = await fetch(`${API_BASE}/social/posts`, {
 		method: "POST",
-		headers: {
-			...getHeaders(),
-			"Content-Type": "application/json",
-		},
+		headers: getJsonAuthHeaders(),
 		body: JSON.stringify(postData),
 	});
 
-	const result = await response.json();
-
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not create post");
-	}
-
-	return result.data;
+	return getJson(response, "Could not create post");
 }
 
 export async function updatePost(id, title, body, media) {
@@ -156,20 +135,11 @@ export async function updatePost(id, title, body, media) {
 
 	const response = await fetch(`${API_BASE}/social/posts/${id}`, {
 		method: "PUT",
-		headers: {
-			...getHeaders(),
-			"Content-Type": "application/json",
-		},
+		headers: getJsonAuthHeaders(),
 		body: JSON.stringify(postData),
 	});
 
-	const result = await response.json();
-
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not update post");
-	}
-
-	return result.data;
+	return getJson(response, "Could not update post");
 }
 
 export async function deletePost(id) {
@@ -182,7 +152,7 @@ export async function deletePost(id) {
 
 	const response = await fetch(`${API_BASE}/social/posts/${id}`, {
 		method: "DELETE",
-		headers: getHeaders(),
+		headers: getAuthHeaders(),
 	});
 
 	if (!response.ok) {
@@ -204,13 +174,7 @@ export async function registerUser(name, email, password) {
 		}),
 	});
 
-	const result = await response.json();
-
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Register failed");
-	}
-
-	return result.data;
+	return getJson(response, "Register failed");
 }
 
 export async function loginUser(email, password) {
@@ -225,13 +189,7 @@ export async function loginUser(email, password) {
 		}),
 	});
 
-	const result = await response.json();
-
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Login failed");
-	}
-
-	return result.data;
+	return getJson(response, "Login failed");
 }
 
 export async function createApiKey(accessToken) {
@@ -246,11 +204,7 @@ export async function createApiKey(accessToken) {
 		}),
 	});
 
-	const result = await response.json();
+	const result = await getJson(response, "Could not create API key");
 
-	if (!response.ok) {
-		throw new Error(result.errors?.[0]?.message || "Could not create API key");
-	}
-
-	return result.data.key;
+	return result.key;
 }
