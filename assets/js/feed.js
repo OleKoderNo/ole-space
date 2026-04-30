@@ -20,6 +20,18 @@ export async function loadPublicFeed(container) {
 			container.appendChild(postCard);
 		});
 	} catch (error) {
-		container.innerHTML = error.message;
+		container.innerHTML = "";
+
+		const message = document.createElement("section");
+
+		message.className =
+			"bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full mx-auto";
+
+		message.innerHTML = `
+			<h2 class="text-large font-bold">Welcome to OleSpace</h2>
+			<p>Log in or register to view posts, create posts, follow users, and join the conversation.</p>
+		`;
+
+		container.appendChild(message);
 	}
 }
