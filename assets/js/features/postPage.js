@@ -2,6 +2,7 @@ import { getPostById } from "../api/api.js";
 import { createOwnerActions } from "./postOwnership.js";
 import { createProfileLink } from "../components/profileLink.js";
 import { createPostImage, getPostIdFromUrl } from "./postHelpers.js";
+import { createCommentsSection } from "./comments.js";
 
 export async function loadPostPage(postContainer) {
 	const postId = getPostIdFromUrl();
@@ -65,6 +66,8 @@ export async function loadPostPage(postContainer) {
 
 		article.appendChild(message);
 		postContainer.appendChild(article);
+		const commentsSection = createCommentsSection(post);
+		postContainer.appendChild(commentsSection);
 	} catch (error) {
 		postContainer.textContent = error.message;
 	}
