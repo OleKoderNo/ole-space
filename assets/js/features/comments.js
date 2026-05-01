@@ -1,5 +1,5 @@
-import { isLoggedIn } from "../auth/auth.js";
 import { createComment } from "../api/api.js";
+import { isLoggedIn } from "../auth/auth.js";
 
 export function createCommentsSection(post, onCommentCreated) {
 	const section = document.createElement("section");
@@ -17,10 +17,15 @@ export function createCommentsSection(post, onCommentCreated) {
 
 	if (isLoggedIn()) {
 		const form = document.createElement("form");
-
 		form.className = "flex flex-col gap-2";
 
+		const label = document.createElement("label");
+		label.setAttribute("for", "comment-body");
+		label.textContent = "Write a comment";
+
 		const textarea = document.createElement("textarea");
+		textarea.id = "comment-body";
+		textarea.name = "body";
 		textarea.placeholder = "Write a comment...";
 		textarea.required = true;
 
@@ -28,24 +33,42 @@ export function createCommentsSection(post, onCommentCreated) {
 		button.type = "submit";
 		button.textContent = "Post comment";
 
+		const message = document.createElement("p");
+		message.setAttribute("aria-live", "assertive");
+
+		form.appendChild(label);
 		form.appendChild(textarea);
 		form.appendChild(button);
+		form.appendChild(message);
 
 		form.addEventListener("submit", async (event) => {
 			event.preventDefault();
 
+			message.textContent = "";
+
 			const body = textarea.value.trim();
 
-			if (!body) return;
+			if (!body) {
+				message.textContent = "Comment cannot be empty.";
+				return;
+			}
 
-			button.disabled = true;
-			button.textContent = "Posting...";
+			try {
+				button.disabled = true;
+				button.textContent = "Posting...";
 
-			await createComment(post.id, body);
+				await createComment(post.id, body);
 
-			textarea.value = "";
+				textarea.value = "";
+				message.textContent = "Comment posted.";
 
-			await onCommentCreated();
+				await onCommentCreated();
+			} catch (error) {
+				message.textContent = error.message;
+			} finally {
+				button.disabled = false;
+				button.textContent = "Post comment";
+			}
 		});
 
 		section.appendChild(form);

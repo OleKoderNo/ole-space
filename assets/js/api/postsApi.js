@@ -9,7 +9,7 @@ export async function getPublicPosts() {
 }
 
 export async function getPostById(id) {
-	const response = await fetch(`${API_BASE}/social/posts/${id}?_author=true`, {
+	const response = await fetch(`${API_BASE}/social/posts/${id}?_author=true&_comments=true`, {
 		headers: getAuthHeaders(),
 	});
 
