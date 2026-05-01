@@ -52,4 +52,4 @@ export { getPublicPosts, getPostById, createPost, updatePost, deletePost } from 
 
 export { getProfileByName, followProfile, unfollowProfile } from "./profilesApi.js";
 
-export { createComment } from "./commentsApi.js";
+export { createComment, deleteComment } from "./commentsApi.js";

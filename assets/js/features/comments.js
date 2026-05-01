@@ -1,5 +1,5 @@
-import { createComment } from "../api/api.js";
-import { isLoggedIn } from "../auth/auth.js";
+import { createComment, deleteComment } from "../api/api.js";
+import { getProfile, isLoggedIn } from "../auth/auth.js";
 
 export function createCommentsSection(post, onCommentCreated) {
 	const section = document.createElement("section");
@@ -83,6 +83,8 @@ export function createCommentsSection(post, onCommentCreated) {
 		return section;
 	}
 
+	const loggedInProfile = getProfile();
+
 	post.comments.forEach((comment) => {
 		const commentCard = document.createElement("article");
 
@@ -98,6 +100,20 @@ export function createCommentsSection(post, onCommentCreated) {
 
 		commentCard.appendChild(author);
 		commentCard.appendChild(body);
+
+		if (loggedInProfile && comment.author.name === loggedInProfile.name) {
+			const deleteButton = document.createElement("button");
+
+			deleteButton.type = "button";
+			deleteButton.textContent = "Delete comment";
+
+			deleteButton.addEventListener("click", async () => {
+				await deleteComment(post.id, comment.id);
+				await onCommentCreated();
+			});
+
+			commentCard.appendChild(deleteButton);
+		}
 
 		section.appendChild(commentCard);
 	});
