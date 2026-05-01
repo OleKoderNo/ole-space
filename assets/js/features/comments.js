@@ -106,6 +106,7 @@ export function createCommentsSection(post, onCommentCreated) {
 
 			deleteButton.type = "button";
 			deleteButton.textContent = "Delete comment";
+			deleteButton.className = "text-white bg-alert px-6 py-2 rounded-md cursor-pointer";
 
 			deleteButton.addEventListener("click", async () => {
 				await deleteComment(post.id, comment.id);

@@ -27,6 +27,7 @@ export function createOwnerActions(post, article, backLink, message, reloadPost)
 	const deleteButton = document.createElement("button");
 	deleteButton.type = "button";
 	deleteButton.textContent = "Delete post";
+	deleteButton.className = "text-white bg-alert px-6 py-2 rounded-md cursor-pointer";
 
 	actions.appendChild(editButton);
 	actions.appendChild(deleteButton);
