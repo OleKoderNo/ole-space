@@ -7,7 +7,6 @@ function createNavLink(href, text, colorClass) {
 	link.textContent = text;
 
 	link.className = `no-underline text-white px-6 py-2 rounded-md inline-block ${colorClass}`;
-
 	link.style.whiteSpace = "nowrap";
 
 	return link;
@@ -42,17 +41,31 @@ export function renderNavbar() {
 	nav.style.alignItems = "center";
 
 	let logoutButton = null;
+	let menuOpen = false;
+
+	function closeMobileMenu() {
+		if (window.innerWidth < 768) {
+			menuOpen = false;
+			menuToggle.textContent = "≡";
+			nav.style.display = "none";
+		}
+	}
 
 	if (isLoggedIn()) {
 		const createLink = createNavLink("create.html", "Create post", "bg-dusty-blue");
 
 		const profileLink = createNavLink("profile.html", "Profile", "bg-olive");
 
+		createLink.addEventListener("click", closeMobileMenu);
+		profileLink.addEventListener("click", closeMobileMenu);
+
 		logoutButton = document.createElement("button");
 
 		logoutButton.type = "button";
 		logoutButton.textContent = "Logout";
+
 		logoutButton.className = "text-white bg-charcoal px-6 py-2 rounded-md cursor-pointer";
+
 		logoutButton.style.whiteSpace = "nowrap";
 
 		logoutButton.addEventListener("click", () => {
@@ -67,6 +80,9 @@ export function renderNavbar() {
 		const loginLink = createNavLink("login.html", "Login", "bg-dusty-blue");
 
 		const registerLink = createNavLink("register.html", "Register", "bg-olive");
+
+		loginLink.addEventListener("click", closeMobileMenu);
+		registerLink.addEventListener("click", closeMobileMenu);
 
 		nav.appendChild(loginLink);
 		nav.appendChild(registerLink);
@@ -111,8 +127,6 @@ export function renderNavbar() {
 			}
 		}
 	}
-
-	let menuOpen = false;
 
 	menuToggle.addEventListener("click", () => {
 		menuOpen = !menuOpen;
