@@ -1,4 +1,7 @@
-export function createCommentsSection(post) {
+import { isLoggedIn } from "../auth/auth.js";
+import { createComment } from "../api/api.js";
+
+export function createCommentsSection(post, onCommentCreated) {
 	const section = document.createElement("section");
 
 	section.className =
@@ -11,6 +14,42 @@ export function createCommentsSection(post) {
 	title.className = "text-large font-bold";
 
 	section.appendChild(title);
+
+	if (isLoggedIn()) {
+		const form = document.createElement("form");
+
+		form.className = "flex flex-col gap-2";
+
+		const textarea = document.createElement("textarea");
+		textarea.placeholder = "Write a comment...";
+		textarea.required = true;
+
+		const button = document.createElement("button");
+		button.type = "submit";
+		button.textContent = "Post comment";
+
+		form.appendChild(textarea);
+		form.appendChild(button);
+
+		form.addEventListener("submit", async (event) => {
+			event.preventDefault();
+
+			const body = textarea.value.trim();
+
+			if (!body) return;
+
+			button.disabled = true;
+			button.textContent = "Posting...";
+
+			await createComment(post.id, body);
+
+			textarea.value = "";
+
+			await onCommentCreated();
+		});
+
+		section.appendChild(form);
+	}
 
 	if (!post.comments || post.comments.length === 0) {
 		const empty = document.createElement("p");
@@ -25,6 +64,7 @@ export function createCommentsSection(post) {
 		const commentCard = document.createElement("article");
 
 		commentCard.className = "bg-off-white border rounded-md p-4 flex flex-col gap-2";
+
 		commentCard.style.boxSizing = "border-box";
 
 		const author = document.createElement("strong");

@@ -66,7 +66,7 @@ export async function loadPostPage(postContainer) {
 
 		article.appendChild(message);
 		postContainer.appendChild(article);
-		const commentsSection = createCommentsSection(post);
+		const commentsSection = createCommentsSection(post, () => loadPostPage(postContainer));
 		postContainer.appendChild(commentsSection);
 	} catch (error) {
 		postContainer.textContent = error.message;
