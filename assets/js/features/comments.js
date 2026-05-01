@@ -109,6 +109,12 @@ export function createCommentsSection(post, onCommentCreated) {
 			deleteButton.className = "text-white bg-alert px-6 py-2 rounded-md cursor-pointer";
 
 			deleteButton.addEventListener("click", async () => {
+				const confirmed = confirm("Are you sure you want to delete this comment?");
+
+				if (!confirmed) {
+					return;
+				}
+
 				await deleteComment(post.id, comment.id);
 				await onCommentCreated();
 			});
