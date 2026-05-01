@@ -575,6 +575,10 @@ body {
 	background: #fafafa;
 }
 
+.bg-alert {
+	background: #c0392b;
+}
+
 /* Text */
 .text-charcoal {
 	color: #2b2b2b;
@@ -598,6 +602,10 @@ body {
 
 .text-off-white {
 	background: #fafafa;
+}
+
+.text-alert {
+	color: #c0392b;
 }
 
 /* =========================
@@ -637,6 +645,10 @@ body {
 
 .border-olive {
 	border-color: #8a9a5b;
+}
+
+.border-alert {
+	border-color: #c0392b;
 }
 
 /* Radius */
