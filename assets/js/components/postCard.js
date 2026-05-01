@@ -33,12 +33,17 @@ export function createPostCard(post, showAuthor) {
 
 	if (post.media && post.media.url) {
 		const imageWrapper = document.createElement("div");
+
 		imageWrapper.className = "flex justify-center w-full";
+		imageWrapper.style.boxSizing = "border-box";
 
 		const image = document.createElement("img");
+
 		image.src = post.media.url;
 		image.alt = post.media.alt || post.title || "Post image";
-		image.className = "max-w-md w-full max-h-72 object-cover rounded-md";
+		image.className = "w-full max-w-md max-h-72 object-cover rounded-md";
+
+		image.style.boxSizing = "border-box";
 
 		imageWrapper.appendChild(image);
 		article.appendChild(imageWrapper);

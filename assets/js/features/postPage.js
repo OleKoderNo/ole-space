@@ -22,6 +22,8 @@ export async function loadPostPage(postContainer) {
 		article.className =
 			"bg-white border rounded-md p-4 flex flex-col gap-4 max-w-hero w-full mx-auto";
 
+		article.style.boxSizing = "border-box";
+
 		const message = document.createElement("p");
 		message.setAttribute("aria-live", "assertive");
 
