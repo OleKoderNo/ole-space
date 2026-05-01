@@ -161,6 +161,25 @@ export async function deletePost(id) {
 	}
 }
 
+export async function createComment(postId, body) {
+	const token = getToken();
+	const apiKey = getApiKey();
+
+	if (!token || !apiKey) {
+		throw new Error("You must be logged in to comment.");
+	}
+
+	const response = await fetch(`${API_BASE}/social/posts/${postId}/comment`, {
+		method: "POST",
+		headers: getJsonAuthHeaders(),
+		body: JSON.stringify({
+			body: body,
+		}),
+	});
+
+	return getJson(response, "Could not create comment");
+}
+
 export async function registerUser(name, email, password) {
 	const response = await fetch(`${API_BASE}/auth/register`, {
 		method: "POST",
