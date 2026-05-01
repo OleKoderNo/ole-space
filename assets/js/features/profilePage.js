@@ -1,5 +1,5 @@
 import { getProfileByName } from "../api/api.js";
-import { createFollowButton } from "./followButton.js";
+import { createFollowButton } from "../components/followButton.js";
 import { createProfileImage, getProfileNameFromUrl } from "./profileHelpers.js";
 import { createPostCard } from "../components/postCard.js";
 

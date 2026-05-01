@@ -1,6 +1,6 @@
-import { followProfile, unfollowProfile } from "./api/api.js";
-import { isLoggedIn } from "./auth/auth.js";
-import { isFollowingProfile, isOwnProfile } from "./profileHelpers.js";
+import { followProfile, unfollowProfile } from "../api/api.js";
+import { isLoggedIn } from "../auth/auth.js";
+import { isFollowingProfile, isOwnProfile } from "../features/profileHelpers.js";
 
 export function createFollowButton(profile, onToggleComplete) {
 	if (!isLoggedIn() || isOwnProfile(profile)) {
