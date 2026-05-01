@@ -21,26 +21,19 @@ export function renderNavbar() {
 
 	header.className = "bg-white border-b p-4 flex justify-between items-center relative";
 
-	/* Logo */
-
 	const logo = document.createElement("a");
 
 	logo.href = "index.html";
 	logo.textContent = "OleSpace";
 	logo.className = "no-underline text-charcoal text-2xl font-bold";
 
-	/* Hamburger icon */
-
 	const menuToggle = document.createElement("span");
 
 	menuToggle.textContent = "≡";
-
 	menuToggle.style.fontSize = "1.75rem";
 	menuToggle.style.cursor = "pointer";
 	menuToggle.style.userSelect = "none";
 	menuToggle.style.display = "none";
-
-	/* Nav container */
 
 	const nav = document.createElement("nav");
 
@@ -48,18 +41,18 @@ export function renderNavbar() {
 	nav.style.gap = "1rem";
 	nav.style.alignItems = "center";
 
+	let logoutButton = null;
+
 	if (isLoggedIn()) {
 		const createLink = createNavLink("create.html", "Create post", "bg-dusty-blue");
 
 		const profileLink = createNavLink("profile.html", "Profile", "bg-olive");
 
-		const logoutButton = document.createElement("button");
+		logoutButton = document.createElement("button");
 
 		logoutButton.type = "button";
 		logoutButton.textContent = "Logout";
-
 		logoutButton.className = "text-white bg-charcoal px-6 py-2 rounded-md cursor-pointer";
-
 		logoutButton.style.whiteSpace = "nowrap";
 
 		logoutButton.addEventListener("click", () => {
@@ -79,8 +72,6 @@ export function renderNavbar() {
 		nav.appendChild(registerLink);
 	}
 
-	/* Responsive behavior */
-
 	function applyResponsiveNavbar() {
 		const isMobile = window.innerWidth < 768;
 
@@ -95,7 +86,12 @@ export function renderNavbar() {
 			nav.style.borderBottom = "1px solid #bfc5c9";
 			nav.style.padding = "1rem";
 			nav.style.flexDirection = "column";
-			nav.style.display = "none";
+			nav.style.display = menuOpen ? "flex" : "none";
+
+			if (logoutButton) {
+				logoutButton.style.width = "fit-content";
+				logoutButton.style.alignSelf = "center";
+			}
 		} else {
 			menuToggle.style.display = "none";
 
@@ -108,6 +104,11 @@ export function renderNavbar() {
 			nav.style.padding = "";
 			nav.style.display = "flex";
 			nav.style.flexDirection = "row";
+
+			if (logoutButton) {
+				logoutButton.style.width = "";
+				logoutButton.style.alignSelf = "";
+			}
 		}
 	}
 
@@ -118,7 +119,7 @@ export function renderNavbar() {
 
 		menuToggle.textContent = menuOpen ? "×" : "≡";
 
-		nav.style.display = menuOpen ? "flex" : "none";
+		applyResponsiveNavbar();
 	});
 
 	window.addEventListener("resize", applyResponsiveNavbar);
