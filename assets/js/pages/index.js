@@ -10,6 +10,7 @@ renderNavbar();
 loadPublicFeed(feedContainer);
 
 if (isLoggedIn()) {
+	searchSection.classList.remove("hidden");
 	setupPostSearch(feedContainer);
 } else {
 	if (searchSection) {
